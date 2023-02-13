@@ -4,6 +4,7 @@ import shutil
 import argparse
 import base64
 import json
+import traceback
 from xml.etree import ElementTree as ET
 from xml.dom import minidom
 from common import logger
@@ -260,9 +261,21 @@ def parse_args():
     if len(sys.argv) > 1:
         args = parser.parse_args()
         if None != args.x:
-            unpack(args.x, args.y)
+            try:
+                unpack(args.x, args.y)
+            except Exception as e:
+                logger.fatal(e)
+                traceback.print_exc()
+            else:
+                logger.info("success :)")
         elif None != args.c:
-            pack(args.c, args.y)
+            try:
+                pack(args.c, args.y)
+            except Exception as e:
+                logger.fatal(e)
+                traceback.print_exc()
+            else:
+                logger.info("success :)")
     else:
         parser.print_help()
 
